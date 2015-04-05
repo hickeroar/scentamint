@@ -1,0 +1,1 @@
+simplebayes>=1.4.0
