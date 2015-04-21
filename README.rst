@@ -1,7 +1,7 @@
-Bayegram
-========
-A Bayesian-probability-based trainable sentiment classifier with optional standalone web API.
----------------------------------------------------------------------------------------------
+Scentamint
+==========
+A self-contained web api providing naïve bayesian text classification and training using simplebayes.
+-----------------------------------------------------------------------------------------------------
 
 Build Status
 ------------
