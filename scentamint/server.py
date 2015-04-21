@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 The MIT License (MIT)
 
@@ -23,6 +24,7 @@ SOFTWARE.
 """
 import scentamint.config
 import simplebayes
+import simplejson
 import getopt
 import sys
 from flask import Flask, request
@@ -33,10 +35,55 @@ CONFIG = scentamint.config.get()
 CLASSIFIER = simplebayes.SimpleBayes()
 
 
+def set_headers(action):
+    data, status = action()
+    return data, status, {}
+
+
+@SCENTAMINT_SERVER.route("/train/<string:category>/", methods=['POST'])
+def train_action(category):
+    pass
+
+
+@SCENTAMINT_SERVER.route("/untrain/<string:category>/", methods=['POST'])
+def untrain_action(category):
+    pass
+
+
+@SCENTAMINT_SERVER.route("/classify/", methods=['POST'])
+def classify_action():
+    if len(request.data.strip()) == 0:
+        return encode({"data":"Missing Payload"}), 412,
+    return "", 204
+    pass
+
+
+@SCENTAMINT_SERVER.route("/score/", methods=['POST'])
+def score_action():
+    pass
+
+
+def encode(data):
+    """
+    Encodes the data as json.
+
+    :return: the encoded data
+    :rtype: str
+    """
+    return simplejson.dumps(
+        data,
+        ensure_ascii=False,
+        encoding='utf8',
+        indent=4
+    )
+
+
 def usage():
-    """Cahoots Help"""
+    """
+    Cahoots Help
+    """
     print("")
-    print("Cahoots Server Help:")
+    print("Scentamint Server Help:")
     print("")
     print("\t-h, --help")
     print("\t\tShow this help")
@@ -69,11 +116,11 @@ def launch_server():
             usage()
             sys.exit()
         elif opt in ("-d", "--debug"):
-            CONFIG.debug = True
+            CONFIG['debug'] = True
         elif opt in ("-p", "--port"):
             try:
-                CONFIG.listen_port = int(arg)
-                if CONFIG.listen_port > 65535:
+                CONFIG['listen_port'] = int(arg)
+                if CONFIG['listen_port'] > 65535:
                     raise ValueError
             except ValueError:
                 print('\nError: Invalid port')
@@ -82,6 +129,10 @@ def launch_server():
 
     SCENTAMINT_SERVER.run(
         host="0.0.0.0",
-        port=int(CONFIG.listen_port),
-        debug=CONFIG.debug
+        port=int(CONFIG['listen_port']),
+        debug=CONFIG['debug']
     )
+
+
+if __name__ == "__main__":
+    launch_server()
