@@ -10,6 +10,6 @@ install:
   - pip install -r requirements.txt
   - pip install -r requirements.dev.txt
 script:
-  - nosetests tests/ --with-coverage --cover-package=bayegram --cover-min-percentage 100
-  - flake8 scentamint tests scentamintserver
-  - pylint scentamint tests scentamintserver
+  - nosetests tests/ --with-coverage --cover-package=scentamint --cover-min-percentage 100
+  - flake8 scentamint tests
+  - pylint scentamint tests

@@ -23,44 +23,118 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import scentamint.config
-import simplebayes
 import simplejson
 import getopt
 import sys
 from flask import Flask, request
+from functools import wraps
+from scentamint.service import SimpleBayesService
 
 
-SCENTAMINT_SERVER = Flask(__name__)
+SERVER = Flask(__name__)
 CONFIG = scentamint.config.get()
-CLASSIFIER = simplebayes.SimpleBayes()
+SERVICE = SimpleBayesService(CONFIG)
 
 
-def set_headers(action):
-    data, status = action()
-    return data, status, {}
+def validate_and_set_headers(action):
+    """
+    Generates a decorator to validate data
+    and automatically add json headers
+
+    :param action: the function we're decorating
+    :type action: function
+    :return: decorator function
+    :rtype: function
+    """
+    @wraps(action)
+    def decorator(*args, **kwargs):
+        """
+        Decorates a route match function
+
+        :return: the results of this route action
+        :rtype: tuple
+        """
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
+        # Just skipping the function call if
+        if len(request.data.strip()) == 0:
+            return encode({"data": "Missing Payload"}), 412, headers
+
+        data, status = action(*args, **kwargs)
+        return encode(data), status, headers
+
+    return decorator
 
 
-@SCENTAMINT_SERVER.route("/train/<string:category>/", methods=['POST'])
+@SERVER.route("/train/<string:category>/", methods=['POST'])
+@validate_and_set_headers
 def train_action(category):
-    pass
+    """
+    Trains a category
 
-
-@SCENTAMINT_SERVER.route("/untrain/<string:category>/", methods=['POST'])
-def untrain_action(category):
-    pass
-
-
-@SCENTAMINT_SERVER.route("/classify/", methods=['POST'])
-def classify_action():
-    if len(request.data.strip()) == 0:
-        return encode({"data":"Missing Payload"}), 412,
+    :param category: the category we're training
+    :type category: string
+    :return: status code
+    :rtype: tuple
+    """
+    SERVICE.train(category, request.data)
     return "", 204
-    pass
 
 
-@SCENTAMINT_SERVER.route("/score/", methods=['POST'])
+@SERVER.route("/untrain/<string:category>/", methods=['POST'])
+@validate_and_set_headers
+def untrain_action(category):
+    """
+    Untrains a category
+
+    :param category: the category we're untraining
+    :type category: string
+    :return: status code
+    :rtype: tuple
+    """
+    SERVICE.untrain(category, request.data)
+    return "", 204
+
+
+@SERVER.route("/classify/", methods=['POST'])
+@validate_and_set_headers
+def classify_action():
+    """
+    Classifies a set of text
+
+    :return: the winning category and status code
+    :rtype: tuple
+    """
+    result = SERVICE.classify(request.data)
+    return {'result': result}, 200
+
+
+@SERVER.route("/score/", methods=['POST'])
+@validate_and_set_headers
 def score_action():
-    pass
+    """
+    Scores a sample of text and returns per-category scores
+
+    :return: scores and status code
+    :rtype: tuple
+    """
+    results = SERVICE.score(request.data)
+    return {'scores': results}, 200
+
+
+@SERVER.route("/flush/", methods=['POST'])
+@validate_and_set_headers
+def flush_action():
+    """
+    Untrains all data in the classifier
+
+    :return: status code
+    :rtype: tuple
+    """
+    SERVICE.flush()
+    return "", 204
 
 
 def encode(data):
@@ -127,7 +201,7 @@ def launch_server():
                 usage()
                 sys.exit()
 
-    SCENTAMINT_SERVER.run(
+    SERVER.run(
         host="0.0.0.0",
         port=int(CONFIG['listen_port']),
         debug=CONFIG['debug']
