@@ -21,6 +21,7 @@ setup (
         'Topic :: Utilities',
     ],
     install_requires = [
+        'simplejson',
         'simplebayes',
         'flask',
     ],
