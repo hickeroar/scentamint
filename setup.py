@@ -21,7 +21,6 @@ setup (
         'Topic :: Utilities',
     ],
     install_requires = [
-        'configparser',
         'simplebayes',
         'flask',
     ],

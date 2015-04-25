@@ -21,9 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-import configparser
 from os.path import isfile, realpath
 from shutil import copyfile
+
+try:
+    # pylint: disable=import-error
+    import ConfigParser as configparser
+except ImportError:
+    # pylint: disable=import-error
+    import configparser
 
 
 CONFIG_FILE_LOCATION = '/etc/scentamint.ini'
