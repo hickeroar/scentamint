@@ -24,13 +24,6 @@ SOFTWARE.
 from os.path import isfile, realpath
 from shutil import copyfile
 
-try:
-    # pylint: disable=import-error
-    import ConfigParser as configparser
-except ImportError:
-    # pylint: disable=import-error
-    import configparser
-
 
 CONFIG_FILE_LOCATION = '/etc/scentamint.ini'
 

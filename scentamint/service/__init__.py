@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import simplebayes
+from os.path import exists
+from os import makedirs
 
 
 class SimpleBayesService(object):
@@ -35,6 +37,10 @@ class SimpleBayesService(object):
         :type config: dict
         """
         self.config = config
+
+        if not exists(config['persist_location']):
+            makedirs(config['persist_location'])
+
         self.classifier = \
             simplebayes.SimpleBayes(cache_path=config['persist_location'])
 

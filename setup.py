@@ -1,48 +1,21 @@
 # coding: utf-8
-import subprocess
 import sys
-from distutils import log
 from setuptools import setup
-from setuptools.command.install import install
 
 
-class ScentamintInstall(install):
-    """
-    Extension of setuptools install class for post-install scripting
-    """
-
-    def run(self):
-        """
-        Runs the install and post-install actions
-        """
-        install.run(self)
-
-        log.info('Creating default persistence storage directory (/var/lib/scentamint/).')
-        command = 'mkdir -p /var/lib/scentamint/'
-        subprocess.call(command, shell=True)
+requirements =  [
+    'simplejson',
+    'simplebayes',
+    'flask',
+]
 
 
-# Version Specific requirements
-requires = {}
-if sys.version_info >= (3,):
-    requires['install_requires'] = [
-        'simplejson',
-        'simplebayes',
-        'flask',
-    ]
-else:
-    requires['install_requires'] = [
-        'configparser',
-        'simplejson',
-        'simplebayes',
-        'flask',
-    ]
+# python2 requires us to install this.
+if sys.version_info < (3,):
+    requirements.append('configparser')
 
 
 setup (
-    cmdclass = {
-        'install': ScentamintInstall
-    },
     name = 'scentamint',
     version = '1.0.0',
     url = 'https://github.com/hickeroar/scentamint',
@@ -78,5 +51,5 @@ setup (
             'scentamint = scentamint.server:launch_server',
         ],
     },
-    **requires
+    install_requires=requirements
 )
