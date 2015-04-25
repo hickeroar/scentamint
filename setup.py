@@ -16,15 +16,9 @@ class ScentamintInstall(install):
         """
         install.run(self)
 
-        log.info('Creating Cache Directory.')
+        log.info('Creating default persistence storage directory (/var/lib/scentamint/).')
         command = 'mkdir -p /var/lib/scentamint/'
         subprocess.call(command, shell=True)
-
-        log.info('Creating default config file (/etc/scentamint.ini).')
-        command = 'cp '+self.install_lib+'data/scentamint.ini /etc/scentamint.ini'
-        subprocess.call(command, shell=True)
-
-        log.info('Done!')
 
 
 setup (
@@ -36,7 +30,7 @@ setup (
     url = 'https://github.com/hickeroar/scentamint',
     author = 'Ryan Vennell',
     author_email = 'ryan.vennell@gmail.com',
-    description = 'A self-contained web api providing naïve bayesian text classification and training using simplebayes.',
+    description = 'A web api providing naïve bayesian text classification and training using simplebayes.',
     long_description = open('README.rst', 'r').read(),
     license = 'MIT',
     classifiers = [

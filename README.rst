@@ -1,7 +1,7 @@
 Scentamint
 ==========
-A self-contained web api providing naïve bayesian text classification and training using simplebayes.
------------------------------------------------------------------------------------------------------
+A web api providing naïve bayesian text classification and training using simplebayes.
+--------------------------------------------------------------------------------------
 
 Build Status
 ------------
