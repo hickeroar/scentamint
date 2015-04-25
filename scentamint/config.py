@@ -66,6 +66,6 @@ def ensure_config_file_exists():
     """
     if not isfile(CONFIG_FILE_LOCATION):
         copyfile(
-            realpath(__file__ + '/../../data/scentamint.ini'),
+            realpath(__file__ + '/../data/scentamint.ini'),
             CONFIG_FILE_LOCATION
         )

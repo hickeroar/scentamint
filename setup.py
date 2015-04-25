@@ -55,6 +55,11 @@ setup (
         'scentamint',
         'scentamint.service',
     ],
+    package_data = {
+        'scentamint': [
+            'data/*',
+        ],
+    },
     entry_points={
         'console_scripts': [
             'scentamint = scentamint.server:launch_server',

@@ -9,8 +9,14 @@ Build Status
 .. image:: https://img.shields.io/badge/pylint-10.00/10-brightgreen.svg?style=flat
 .. image:: https://img.shields.io/badge/flake8-passing-brightgreen.svg?style=flat
 
-Basic Server Usage
-------------------
+Installation
+------------
+::
+
+    sudo pip install scentamint
+
+Server Usage
+------------
 .. code-block:: bash
 
     $ sudo scentamint --help
@@ -43,7 +49,7 @@ Config file is /etc/scentamint.ini::
     ; set the location that we want to store the bayes training cache
     persist_location = /var/lib/scentamint/
 
-    ; the default port this server will runon
+    ; the default port this server will run on
     listen_port = 80
 
 License
