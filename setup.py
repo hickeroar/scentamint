@@ -1,5 +1,6 @@
 # coding: utf-8
 import subprocess
+import sys
 from distutils import log
 from setuptools import setup
 from setuptools.command.install import install
@@ -19,6 +20,23 @@ class ScentamintInstall(install):
         log.info('Creating default persistence storage directory (/var/lib/scentamint/).')
         command = 'mkdir -p /var/lib/scentamint/'
         subprocess.call(command, shell=True)
+
+
+# Version Specific requirements
+requires = {}
+if sys.version_info >= (3,):
+    requires['install_requires'] = [
+        'simplejson',
+        'simplebayes',
+        'flask',
+    ]
+else:
+    requires['install_requires'] = [
+        'configparser',
+        'simplejson',
+        'simplebayes',
+        'flask',
+    ]
 
 
 setup (
@@ -46,11 +64,6 @@ setup (
         'Operating System :: MacOS',
         'Operating System :: POSIX :: Linux',
     ],
-    install_requires = [
-        'simplejson',
-        'simplebayes',
-        'flask',
-    ],
     packages = [
         'scentamint',
         'scentamint.service',
@@ -65,4 +78,5 @@ setup (
             'scentamint = scentamint.server:launch_server',
         ],
     },
+    **requires
 )
