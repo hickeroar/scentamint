@@ -15,6 +15,18 @@ Installation
 
     sudo pip install scentamint
 
+Config
+------
+Config file location is /etc/scentamint.ini::
+
+    [scentamint]
+
+    ; set the location that we want to store the bayes training cache
+    persist_location = /var/lib/scentamint/
+
+    ; the default port this server will run on
+    listen_port = 80
+
 Server Usage
 ------------
 .. code-block:: bash
@@ -126,18 +138,6 @@ Result Status::
     204 No Content
 
 - This is a purely destructive, non-reversable action.
-
-Config
-------
-Config file is /etc/scentamint.ini::
-
-    [scentamint]
-
-    ; set the location that we want to store the bayes training cache
-    persist_location = /var/lib/scentamint/
-
-    ; the default port this server will run on
-    listen_port = 80
 
 License
 -------
