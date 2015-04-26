@@ -39,6 +39,93 @@ Server Usage
 
     $ sudo scentamint --port 80
      * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+    # CTRL+C pressed
+
+    # A simple, no fuss, server execution command.
+    $ sudo nohup scentamint >> /var/log/scentamint.log 2>&1 &
+
+API Usage
+---------
+
+All endpoints accept POST commands and return predictable results depending on what is posted.
+
+Training the Classifier
+-----------------------
+Endpoint::
+
+    /train/<string:category>/ (ex: /train/spam/)
+
+Result Status::
+
+    204 No Content
+
+- The POST payload should contain the raw text that will train the classifier.
+- You can train a category as many times as you want.
+
+Untraining the Classifier
+-------------------------
+Endpoint::
+
+    /untrain/<string:category>/ (ex: /train/ham/)
+
+Result Status::
+
+    204 No Content
+
+- The POST payload should contain the raw text that will train the classifier.
+- You can untrain a category as many times as you want, but a token's value will not go below zero.
+- This action carries out the inverse operation of training so unintentional trains can be reversed.
+
+Classifying Text
+----------------
+Endpoint::
+
+    /classify/
+
+Result Status::
+
+    200 OK
+
+Result JSON Example::
+
+    {
+        "result": "ham"
+    }
+
+- The POST payload should contain the raw text that you want to classify.
+
+Scoring Text
+------------
+Endpoint::
+
+    /score/
+
+Result Status::
+
+    200 OK
+
+Result JSON Example::
+
+    {
+        "scores": {
+            "ham": 268.4685238156538,
+            "spam": 44.531476184346225
+        }
+    }
+
+- The POST payload should contain the raw text that you want to score.
+
+Emptying All Classifier Training Data
+-------------------------------------
+Endpoint::
+
+    /flush/
+
+Result Status::
+
+    204 No Content
+
+- This is a purely destructive, non-reversable action.
 
 Config
 ------
