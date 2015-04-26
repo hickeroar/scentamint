@@ -9,6 +9,27 @@ Build Status
 .. image:: https://img.shields.io/badge/pylint-10.00/10-brightgreen.svg?style=flat
 .. image:: https://img.shields.io/badge/flake8-passing-brightgreen.svg?style=flat
 
+Why?
+----
+::
+
+    Bayesian text classification is often used for things like
+    spam detection, sentiment determination, or general categorization.
+
+    Essentially you collect samples of text that you know are of a certain
+    "type" or "category," then you use it to train a bayesian classifier.
+    Once you have trained the classifier with many samples of various
+    categories, you can begin to classify and/or score text samples to see
+    which category they fit best in.
+
+    You could, for instance, set up classification of sentiment by finding
+    samples of text that are happy, sad, angry, sarcastic, and so on, then
+    train a classifier using those samples. Once your classifier is trained,
+    you can begin to classify other text into one of those categories.
+
+    What a classifier does is look at text and tell you how much that text
+    "looks like" other categories of text that it has been trained for.
+
 Installation
 ------------
 ::
