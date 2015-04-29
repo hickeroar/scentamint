@@ -154,7 +154,7 @@ def encode(data):
 
 def usage():
     """
-    Cahoots Help
+    Scentamint Help
     """
     print("")
     print("Scentamint Server Help:")
