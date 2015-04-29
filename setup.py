@@ -17,7 +17,7 @@ if sys.version_info < (3,):
 
 setup (
     name = 'scentamint',
-    version = '1.1.1',
+    version = '1.1.2',
     url = 'https://github.com/hickeroar/scentamint',
     author = 'Ryan Vennell',
     author_email = 'ryan.vennell@gmail.com',
